@@ -35,9 +35,17 @@ body {
     color: white;
 }
 
+.bg-purple {
+    background-color: purple;
+}
+
 .form-container {
-    background: rgb(44, 49, 54);
-    background: linear-gradient(90deg, rgb(45, 49, 54) 22%, rgb(69, 102, 109) 63%);
+    width: 80%;
+    background-color: ivory;
+    border-radius: 20px;
+    padding: 50px;
+    /* background: rgb(44, 49, 54); */
+    /* background: linear-gradient(90deg, rgb(45, 49, 54) 22%, rgb(69, 102, 109) 63%); */
     transition: all 0.3s ease;
 }
 
