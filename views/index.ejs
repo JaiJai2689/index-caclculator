@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nilai Mahasiswa</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+    </style>
+</head>
+
+<body class="bg-light d-flex flex-column align-items-center justify-content-center vh-100">
+    <div class="container bg-white p-4 rounded shadow-lg form-container">
+        <h2 class="text-center mb-4">Nilai Mahasiswa</h2>
+
+        <% if (errorMessage) { %>
+            <div class="alert alert-danger d-flex justify-content-center" role="alert">
+                <%= errorMessage %>
+            </div>
+            <% } %>
+
+                <form action="/" method="post" class="form-wrapper">
+                    <div class="mb-3 d-flex gap-2 h-25">
+                        <input type="text" name="matkul" id="matkul" class="form-control" placeholder="Mata Kuliah" required>
+                        <input type="number" name="nilai" id="nilai" class="form-control" placeholder="Nilai" required>
+                        <button type="submit" class="btn btn-primary w-30">Tambah Nilai</button>
+                    </div>
+
+                </form>
+
+                <div id="result" class="mt-4">
+                    <h4 class="text-center">Daftar Nilai</h4>
+                    <ul class="list-group mt-4">
+                        <% daftarNilai.forEach(function(data, index) { %>
+                            <li class="list-group-item d-flex justify-content-center gap-2 align-items-stretch">
+                                <form action="/update" method="post" class="d-flex gap-2 w-75">
+                                    <input type="hidden" name="index" value="<%= index %>">
+                                    <input type="text" name="matkul" value="<%= data.matkul %>" class="form-control">
+                                    <input type="number" name="nilai" value="<%= data.nilai %>" class="form-control">
+                                    <span class="indeks"><%= data.indeks %></span>
+                                    <button type="submit" class="btn btn-success btn-sm">Update</button>
+                                </form>
+                                <button type="button" class="btn btn-danger btn-sm btn-delete" data-index="<%= index %>">Hapus</button>
+                            </li>
+                            <% }); %>
+                    </ul>
+                </div>
+    </div>
+
+    <!-- Modal Hapus -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Konfirmasi Hapus</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda yakin ingin menghapus data ini?
+                </div>
+                <div class="modal-footer">
+                    <form id="deleteForm" action="/delete" method="post">
+                        <input type="hidden" name="index" id="deleteIndex">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
+            let deleteForm = document.getElementById("deleteForm");
+            let deleteIndexInput = document.getElementById("deleteIndex");
+
+            document.querySelectorAll(".btn-delete").forEach(button => {
+                button.addEventListener("click", function(event) {
+                    event.preventDefault();
+                    let index = this.getAttribute("data-index");
+                    deleteIndexInput.value = index;
+                    deleteModal.show();
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
